@@ -61,6 +61,8 @@ namespace MineTest
         [SerializeField, Min(0.1f)] private float uiScaleMultiplier = 1f;
 
         private readonly List<MiningNode> nodes = new List<MiningNode>();
+        public IReadOnlyList<MiningNode> Nodes => nodes;
+
         private MiningNode hoveredNode;
         private MiningNode activeNode;
         private GameObject clickUiInstance;
@@ -525,6 +527,7 @@ namespace MineTest
                 }
 
                 node.Initialize(this);
+                node.SetSpawnOrder(nodes.Count);
                 nodes.Add(node);
                 Physics.SyncTransforms();
 

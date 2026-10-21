@@ -190,7 +190,7 @@ public class MiningAutomationController
             return;
         }
 
-        if (_currentTarget == null || !_currentTarget.CanBeMined)
+        if (_currentTarget == null || !_currentTarget.CanBeMined())
         {
             _currentTarget = null;
             _state = MiningState.Searching;
@@ -206,7 +206,7 @@ public class MiningAutomationController
         if (_skull == null || _currentTarget == null)
             return false;
 
-        if (!_currentTarget.CanBeMined)
+        if (!_currentTarget.CanBeMined())
             return false;
 
         return _currentTarget.IsReservedBy(_skull);

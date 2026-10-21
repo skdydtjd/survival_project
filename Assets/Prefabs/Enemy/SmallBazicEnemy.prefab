@@ -50,11 +50,14 @@ MonoBehaviour:
   moveSpeed: 3
   detectAttackRange: 3.5
   hp: 5
-  chargeTime: 1.5
+  chargeTime: 1.2
   dashHoldTime: 0.3
   maxDashRange: 5
   dashDuration: 0.7
   cooldownTime: 2
+  isVariant: 0
+  variantDashDuration: 1
+  zigzagWidth: 1
   warningIndicator: {fileID: 6593775537576110160}
   childSpriteRenderer: {fileID: 8276313093957859460}
 --- !u!65 &2426582534178843249

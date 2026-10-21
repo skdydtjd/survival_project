@@ -7,6 +7,8 @@ namespace MineTest
     [RequireComponent(typeof(BoxCollider), typeof(SpriteRenderer))]
     public sealed class MiningNode : MonoBehaviour
     {
+        private readonly WorkReservation _reservation = new WorkReservation();
+
         [SerializeField, Min(1)] private int maxHealth = 25;
         [SerializeField] private bool randomJewelColor;
         [SerializeField, Min(0.001f)] private float outlineOffset = 0.07f;
@@ -31,6 +33,8 @@ namespace MineTest
         public int CurrentHealth => currentHealth;
         public int MaxHealth => maxHealth;
         public SpriteRenderer MainRenderer => mainRenderer;
+
+        public int SpawnOrder { get; private set; }
 
         // 렌더러와 체력을 초기화하고 그림자와 선택 외곽선을 생성한다.
         private void Awake()
@@ -164,6 +168,36 @@ namespace MineTest
 
                 outlines.Add(outline);
             }
+        }
+
+        public bool CanBeMined()
+        {
+            return !destroyed && currentHealth > 0;
+        }
+
+        public bool CanBeMinedBy(SkullController skull)
+        {
+            return skull != null && CanBeMined();
+        }
+
+        public bool TryReserve(SkullController skull)
+        {
+            return CanBeMined() && skull != null && _reservation.TryReserve(skull);
+        }
+
+        public bool IsReservedBy(SkullController skull)
+        {
+            return _reservation.IsReservedBy(skull);
+        }
+
+        public void Release(SkullController skull)
+        {
+            _reservation.Release(skull);
+        }
+
+        public void SetSpawnOrder(int order)
+        {
+            SpawnOrder = order;
         }
     }
 }

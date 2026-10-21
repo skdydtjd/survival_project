@@ -21,8 +21,13 @@ public class SmallBazicEnemy : MonoBehaviour
     public float dashDuration = 1.0f;
     public float cooldownTime = 2.0f;
 
+    [Header("아종 설정")]
+    public bool isVariant = false;
+    public float variantDashDuration = 1.5f;
+    public float zigzagWidth = 1.0f;
+
     [Header("DoTween 연출 이펙트")]
-    public Transform warningIndicator; // 인스펙터에서 'WarningPivot' 부모를 할당하세요!
+    public Transform warningIndicator;
 
     private Transform player;
     private Vector3 dashTargetPosition;
@@ -140,9 +145,63 @@ public class SmallBazicEnemy : MonoBehaviour
             warningIndicator.gameObject.SetActive(false);
         }
 
+        if (isVariant)
+        {
+            StartVariantDash();
+            return;
+        }
+
         transform.DOMove(dashTargetPosition, dashDuration)
             .SetEase(Ease.OutQuad)
             .OnComplete(() => {
+                StartCoroutine(CooldownState());
+            });
+    }
+
+    void StartVariantDash()
+    {
+        Vector3 startPosition = transform.position;
+
+        // 돌진 시작 시 결정한 방향을 고정
+        Vector3 forwardDirection = dashTargetPosition - startPosition;
+        forwardDirection.y = 0f;
+
+        if (forwardDirection.sqrMagnitude < 0.0001f)
+        {
+            StartCoroutine(CooldownState());
+            return;
+        }
+
+        forwardDirection.Normalize();
+
+        // 전진 방향에 수직인 좌우 방향
+        Vector3 sideDirection =
+            Vector3.Cross(Vector3.up, forwardDirection).normalized;
+
+        // 불규칙한 간격으로 방향 전환 지점 결정
+        float firstTurnProgress = Random.Range(0.20f, 0.40f);
+        float secondTurnProgress = Random.Range(0.60f, 0.80f);
+
+        // 최초 좌우 방향도 무작위
+        float firstSide = Random.value < 0.5f ? -1f : 1f;
+
+        Vector3 firstTurnPosition =
+            startPosition
+            + forwardDirection * (maxDashRange * firstTurnProgress)
+            + sideDirection * (zigzagWidth * firstSide);
+
+        Vector3 secondTurnPosition =
+            startPosition
+            + forwardDirection * (maxDashRange * secondTurnProgress)
+            - sideDirection * (zigzagWidth * firstSide);
+
+        // 마지막 지점은 기존 돌진 종료 위치
+        Vector3[] path =
+        {firstTurnPosition, secondTurnPosition, dashTargetPosition};
+
+        transform.DOPath(path,variantDashDuration, PathType.Linear, PathMode.Full3D).SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
                 StartCoroutine(CooldownState());
             });
     }

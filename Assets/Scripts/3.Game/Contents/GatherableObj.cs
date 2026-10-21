@@ -16,6 +16,8 @@ public interface IGatherable : IInteractable, IHoverable
 }
 public class GatherableObj : InteractableObj, IGatherable
 {
+    private readonly WorkReservation _reservation = new WorkReservation();
+
     [Tooltip("item id to gather")]
     [SerializeField] string itemId;
     [SerializeField] float interactableDistance;
@@ -144,5 +146,44 @@ public class GatherableObj : InteractableObj, IGatherable
     public void CancelGathering()
     {
         isInteracting = false;
+    }
+
+    public bool CanBeGatheredBy(SkullController skull)
+    {
+        return skull != null && isGatherable && !isInteracting;
+    }
+
+    public void ExecuteGatherBySkull(SkullController skull, ToolType toolType)
+    {
+        if (!CanBeGatheredBy(skull))
+            return;
+
+        GetItem(itemId);
+
+        if (isSingleUse)
+        {
+            isGatherable = false;
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            ChangeGatherState();
+        }
+    }
+
+    public bool TryReserve(SkullController skull)
+    {
+        return CanBeGatheredBy(skull)
+            && _reservation.TryReserve(skull);
+    }
+
+    public bool IsReservedBy(SkullController skull)
+    {
+        return _reservation.IsReservedBy(skull);
+    }
+
+    public void Release(SkullController skull)
+    {
+        _reservation.Release(skull);
     }
 }
