@@ -147,8 +147,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   hp: 8
-  attckDamege: 1
-  attackRange: 4
+  attckDamege: 2
+  attackRange: 6
   childSpriteRenderer: {fileID: 1048092540031147556}
   fastRetreatSpeed: 6
   shootingDistanceTolerance: 0.5

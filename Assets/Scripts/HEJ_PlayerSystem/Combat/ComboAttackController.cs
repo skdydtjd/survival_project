@@ -24,6 +24,11 @@ public class ComboAttackController : MonoBehaviour
 
     public event Action AttackFinished;
 
+    private void Update()
+    {
+        TryReflectArrowDuringCurrentStep();
+    }
+
     public void StartAttack(WeaponData weaponData, Vector3 attackDirection)
     {
         if(_isAttacking) return;
@@ -103,6 +108,7 @@ public class ComboAttackController : MonoBehaviour
     {
         AttackStepData step = _weaponData.ComboData.GetStep(_currentStepIndex);
         _hitDetector.BeginStep();
+        TryReflectArrowDuringCurrentStep();
         transform.position += attackDirection * 0.3f;
         _playerMove.FaceDirection(attackDirection);
         _animator.Play(step.AnimationName, 0, 0f);
@@ -129,5 +135,16 @@ public class ComboAttackController : MonoBehaviour
     public void PlayHitImpulse()
     {
         _impulseSource.GenerateImpulse();
+    }
+
+    private void TryReflectArrowDuringCurrentStep()
+    {
+        if (!_isAttacking || _weaponData == null || _hitDetector == null) return;
+
+        AttackStepData step = _weaponData.ComboData.GetStep(_currentStepIndex);
+        if (_hitDetector.TryReflectNearestArrow(step, _attackDirection))
+        {
+            PlayHitImpulse();
+        }
     }
 }
