@@ -353,7 +353,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4998988373881691735, guid: 7f1a3429e32419d4e85a7871b7ed364a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4998988373881691819, guid: 7f1a3429e32419d4e85a7871b7ed364a, type: 3}
       propertyPath: m_RootOrder
@@ -259040,7 +259040,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6129582663990887102, guid: 24c08e3e8585ac947a812f1d80f86915, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24c08e3e8585ac947a812f1d80f86915, type: 3}
@@ -259278,7 +259278,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3249728092591637564, guid: c5a9dbf90a356d048b5f3f822bbee5ef, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4698245477699011171, guid: c5a9dbf90a356d048b5f3f822bbee5ef, type: 3}
       propertyPath: m_Layer
@@ -259441,14 +259441,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4378101287687771804, guid: db55e69c6f8e1104ba40dbf5df46a9eb, type: 3}
-      propertyPath: mainCamera
-      value: 
-      objectReference: {fileID: 266393882}
     - target: {fileID: 4378101287687771803, guid: db55e69c6f8e1104ba40dbf5df46a9eb, type: 3}
       propertyPath: isCombatMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4378101287687771804, guid: db55e69c6f8e1104ba40dbf5df46a9eb, type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 266393882}
     - target: {fileID: 6334536552402137037, guid: db55e69c6f8e1104ba40dbf5df46a9eb, type: 3}
       propertyPath: miningAnimatorController
       value: 
