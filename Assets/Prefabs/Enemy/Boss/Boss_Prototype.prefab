@@ -383,7 +383,7 @@ MonoBehaviour:
   bossRigidbody: {fileID: 1813706120863427367}
   bossAnimator: {fileID: 6273205255384476635}
   bossMovement: {fileID: 1813706120863427370}
-  telegraphMotion: {fileID: 0}
+  telegraphMotion: {fileID: 1813706120863427372}
   attackStartDistance: 5
 --- !u!114 &1813706120863427370
 MonoBehaviour:
@@ -444,7 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3910428534cc746a40659227166ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 1000
+  maxHp: 100
   hitFlashEffect: {fileID: 1017615792525957349}
 --- !u!114 &1017615792525957349
 MonoBehaviour:
@@ -460,7 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRenderer: {fileID: 8163948886997261211}
   hitColor: {r: 1, g: 0, b: 0, a: 1}
-  flashDuration: 0.2
+  flashDuration: 0.4
 --- !u!65 &1691186812
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -778,19 +778,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1102000001234580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4591865814882412411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85f651087cf940acbfe2eb517758db27, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
-  bossController: {fileID: 1813706120863427360}
 --- !u!95 &6273205255384476635
 Animator:
   serializedVersion: 4
@@ -811,6 +798,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1102000001234580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591865814882412411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f651087cf940acbfe2eb517758db27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossController: {fileID: 1813706120863427360}
 --- !u!1 &4815053672845888598
 GameObject:
   m_ObjectHideFlags: 0

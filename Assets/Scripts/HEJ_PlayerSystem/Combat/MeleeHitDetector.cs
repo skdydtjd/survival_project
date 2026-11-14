@@ -7,6 +7,34 @@ public class MeleeHitDetector : MonoBehaviour
     [SerializeField] private LayerMask _reflectableLayers;
     private readonly HashSet<IDamageable> _hitTargets = new HashSet<IDamageable>();
     private bool _hasReflectedArrowThisStep;
+    private ArrowReflectionTrigger _reflectionTrigger;
+
+    public void BeginReflectionWindow(AttackStepData step, System.Action onArrowNearby)
+    {
+        EndReflectionWindow();
+        if (_hasReflectedArrowThisStep || step == null || step.MaxDistance <= 0f) return;
+
+        if (_reflectionTrigger == null)
+        {
+            GameObject sensor = new GameObject("Arrow Reflection Trigger");
+            // 일반적인 대상 선택과 레이캐스트에서 감지 영역을 제외합니다.
+            sensor.layer = LayerMask.NameToLayer("Ignore Raycast");
+            sensor.transform.SetParent(transform, false);
+            _reflectionTrigger = sensor.AddComponent<ArrowReflectionTrigger>();
+        }
+
+        _reflectionTrigger.Open(step.MaxDistance, _reflectableLayers, onArrowNearby);
+    }
+
+    public void EndReflectionWindow()
+    {
+        if (_reflectionTrigger != null) _reflectionTrigger.Close();
+    }
+
+    private void OnDisable()
+    {
+        EndReflectionWindow();
+    }
 
     public void BeginStep()
     {
@@ -26,13 +54,16 @@ public class MeleeHitDetector : MonoBehaviour
         if (checkAngle && attackDirection.sqrMagnitude < 0.0001f) return false;
   
         Vector3 origin = transform.position;
+
+        //
         int detectionLayers = _targetLayers.value | _reflectableLayers.value;
         Collider[] colliders = Physics.OverlapSphere(origin, step.MaxDistance, detectionLayers, QueryTriggerInteraction.Collide);
         bool hasHit = false;
 
-        // Once an arrow was reflected, it keeps priority for this entire combo step.
+        // 이번 타수에서 화살을 반사했다면 해당 타수의 적 타격 판정은 생략합니다.
         if (_hasReflectedArrowThisStep) return false;
         if (TryReflectNearestArrow(step, attackDirection)) return true;
+        //
 
         foreach (Collider hitCollider in colliders)
         {
@@ -100,6 +131,7 @@ public class MeleeHitDetector : MonoBehaviour
         if (nearestArrow == null || !nearestArrow.TryReflect(transform)) return false;
 
         _hasReflectedArrowThisStep = true;
+        EndReflectionWindow();
         return true;
     }
 

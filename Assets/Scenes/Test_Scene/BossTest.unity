@@ -123,17 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &76887964 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1813706120863427372, guid: 1d324de085f916e41892545f2c4feb99, type: 3}
-  m_PrefabInstance: {fileID: 1813706122804126308}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7aa2c83d7ea54661991fdd38a69adbaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &451359561
 GameObject:
   m_ObjectHideFlags: 3
@@ -235,7 +224,7 @@ Transform:
   m_Children:
   - {fileID: 1698910281}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &954987415
 GameObject:
@@ -3592,7 +3581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1902762375498604138, guid: 48fb1218143e1104cba3e8fc37dae23e, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1902762375498604138, guid: 48fb1218143e1104cba3e8fc37dae23e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -262283,34 +262272,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1691186804, guid: 1d324de085f916e41892545f2c4feb99, type: 3}
-      propertyPath: maxHp
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017615792525957349, guid: 1d324de085f916e41892545f2c4feb99, type: 3}
-      propertyPath: flashDuration
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 1813706120863427360, guid: 1d324de085f916e41892545f2c4feb99, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 2109000000}
-    - target: {fileID: 1813706120863427360, guid: 1d324de085f916e41892545f2c4feb99, type: 3}
-      propertyPath: telegraphMotion
-      value: 
-      objectReference: {fileID: 76887964}
-    - target: {fileID: 1813706120863427360, guid: 1d324de085f916e41892545f2c4feb99, type: 3}
-      propertyPath: phases.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1813706120863427360, guid: 1d324de085f916e41892545f2c4feb99, type: 3}
-      propertyPath: phases.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: f5c22b31bb268fa42b6a8fafa3c9590b, type: 2}
-    - target: {fileID: 1813706120863427360, guid: 1d324de085f916e41892545f2c4feb99, type: 3}
-      propertyPath: phases.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: da0e3b2d620d14448b823dddb6b5f49a, type: 2}
     - target: {fileID: 1813706120863427365, guid: 1d324de085f916e41892545f2c4feb99, type: 3}
       propertyPath: m_Name
       value: Boss_Prototype

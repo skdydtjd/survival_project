@@ -24,9 +24,9 @@ public class ComboAttackController : MonoBehaviour
 
     public event Action AttackFinished;
 
-    private void Update()
+    private void OnDisable()
     {
-        TryReflectArrowDuringCurrentStep();
+        CancelAttack();
     }
 
     public void StartAttack(WeaponData weaponData, Vector3 attackDirection)
@@ -50,6 +50,7 @@ public class ComboAttackController : MonoBehaviour
     {
         if(!_isAttacking) return;
 
+        _hitDetector.EndReflectionWindow();
         _isAttacking = false;
         _weaponData = null;
         _attackDirection = Vector3.zero;
@@ -63,6 +64,7 @@ public class ComboAttackController : MonoBehaviour
 
     public void CancelAttack()
     {
+        if (_hitDetector != null) _hitDetector.EndReflectionWindow();
         _isAttacking = false;
         _weaponData = null;
         _attackDirection = Vector3.zero;
@@ -107,10 +109,12 @@ public class ComboAttackController : MonoBehaviour
     private void PlayCurrentStep(Vector3 attackDirection)
     {
         AttackStepData step = _weaponData.ComboData.GetStep(_currentStepIndex);
-        _hitDetector.BeginStep();
+        _hitDetector.BeginStep();  // 타격 감지 시작
         TryReflectArrowDuringCurrentStep();
         transform.position += attackDirection * 0.3f;
         _playerMove.FaceDirection(attackDirection);
+        _hitDetector.BeginReflectionWindow(step, TryReflectArrowDuringCurrentStep);
+        TryReflectArrowDuringCurrentStep();
         _animator.Play(step.AnimationName, 0, 0f);
         Debug.Log($"{_currentStepIndex + 1}타 !");
     }
