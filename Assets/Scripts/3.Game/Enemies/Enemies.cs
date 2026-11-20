@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class Enemies : EnemyStats, IDamageable, IKnockbackable
 {
@@ -9,9 +10,22 @@ public class Enemies : EnemyStats, IDamageable, IKnockbackable
     public SpriteRenderer childSpriteRenderer;
     protected bool defaultFacingRight;
     protected Color originalColor;
+    protected HitFlashEffect hitFlashEffect;
+
+    // 몬스터가 죽었을때 발생하는 이벤트
+    public event Action OnEnemyDied;
+
+    private bool deathStarted;
+
+    public void Awake()
+    {
+        //OnEnemyDied += 구독할 메서드
+    }
 
     protected void InitializePlayerReference()
     {
+        hitFlashEffect = GetComponent<HitFlashEffect>();
+
         if (player == null)
         {
             GameObject playerObject = GameObject.FindGameObjectWithTag("Character");
@@ -35,16 +49,6 @@ public class Enemies : EnemyStats, IDamageable, IKnockbackable
         hp -= damage;
 
         return hp <= 0;
-    }
-
-    protected void PlayHitFlash(SpriteRenderer spriteRenderer, Color originalColor, float duration = 0.2f)
-    {
-        if (spriteRenderer == null)
-            return;
-
-        spriteRenderer.DOKill();
-        spriteRenderer.color = Color.red;
-        spriteRenderer.DOColor(originalColor, duration);
     }
 
     protected void UpdateFacingDirection(SpriteRenderer spriteRenderer)
@@ -85,8 +89,10 @@ public class Enemies : EnemyStats, IDamageable, IKnockbackable
 
     public void Attacked(float damage, GameObject hitObject)
     {
-        TakeDamage(damage);
+        if (deathStarted)
+            return;
 
+        TakeDamage(damage);
     }
 
     public void RendDamageUI(float damage, Vector3 rendPos, bool canCri, bool isCri)
@@ -101,7 +107,7 @@ public class Enemies : EnemyStats, IDamageable, IKnockbackable
 
         Debug.Log($"[{gameObject.name}] 피격! 남은 HP: {hp}");
 
-        PlayHitFlash(childSpriteRenderer, originalColor);
+        hitFlashEffect?.PlayHitFlash();
 
         if (isDead)
         {
@@ -115,6 +121,10 @@ public class Enemies : EnemyStats, IDamageable, IKnockbackable
 
     protected virtual void Die()
     {
+        if (deathStarted)
+            return;
+
+        deathStarted = true;
         StopAllCoroutines();
 
         transform.DOKill();
@@ -125,6 +135,7 @@ public class Enemies : EnemyStats, IDamageable, IKnockbackable
             childSpriteRenderer.transform.DOKill();
         }
 
+        OnEnemyDied?.Invoke();
         Destroy(gameObject);
     }
 
